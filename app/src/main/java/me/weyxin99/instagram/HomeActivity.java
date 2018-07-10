@@ -1,12 +1,20 @@
 package me.weyxin99.instagram;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -25,13 +33,13 @@ public class HomeActivity extends AppCompatActivity {
     private Button createButton;
     private Button refreshButton;
     private Button logoutButton;
-    //private Button cameraButton;
+    private Button cameraButton;
     private static final String imagePath = "/storage/emulated/0/DCIM/Camera/IMG_20180709_220038.jpg";
 
-    /*public final String APP_TAG = "CameraFunction";
+    public final String APP_TAG = "CameraFunction";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "photo.jpg";
-    File photoFile;*/
+    File photoFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +50,7 @@ public class HomeActivity extends AppCompatActivity {
         createButton = findViewById(R.id.createButton);
         refreshButton = findViewById(R.id.refreshButton);
         logoutButton = findViewById(R.id.logoutButton);
-        //cameraButton = findViewById(R.id.cameraButton);
+        cameraButton = findViewById(R.id.cameraButton);
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,22 +92,25 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        /*cameraButton.setOnClickListener(new View.OnClickListener() {
+        cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onLaunchCamera(view);
             }
-        });*/
+        });
     }
 
-    /*public void onLaunchCamera(View view) {
+    public void onLaunchCamera(View view) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         photoFile = getPhotoFileUri(photoFileName);
         Uri fileProvider = FileProvider.getUriForFile(HomeActivity.this, "com.codepath.fileprovider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
-
         if (intent.resolveActivity(getPackageManager()) != null) {
+            Log.d("HomeActivity", "Launched camera successfully!");
             startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+        }
+        else {
+            Log.d("HomeActivity", "Failed to launch camera.");
         }
     }
 
@@ -107,10 +118,9 @@ public class HomeActivity extends AppCompatActivity {
     public File getPhotoFileUri(String fileName) {
         File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), APP_TAG);
         if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
-            Log.d(APP_TAG, "failed to create directory");
+            Log.d(APP_TAG, "Failed to create directory.");
         }
         File file = new File(mediaStorageDir.getPath() + File.separator + fileName);
-
         return file;
     }
 
@@ -119,14 +129,14 @@ public class HomeActivity extends AppCompatActivity {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-                //ImageView ivPreview = (ImageView) findViewById(R.id.ivPreview);
-                //ivPreview.setImageBitmap(takenImage);
+                ImageView ivPreview = (ImageView) findViewById(R.id.ivPreview);
+                ivPreview.setImageBitmap(takenImage);
             }
             else {
                 Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
         }
-    }*/
+    }
 
     private void createPost(String description, ParseFile image, ParseUser user) {
         final Post newPost = new Post();

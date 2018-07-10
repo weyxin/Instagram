@@ -55,4 +55,13 @@
         android:layout_marginBottom="48dp"
         android:text="Log Out" />
 
+    <ImageView
+        android:id="@+id/ivPreview"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="124dp"
+        app:srcCompat="@android:color/black" />
+
 </RelativeLayout>
