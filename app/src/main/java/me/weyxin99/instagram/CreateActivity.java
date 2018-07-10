@@ -34,14 +34,13 @@ import java.util.List;
 import me.weyxin99.instagram.model.BitmapScaler;
 import me.weyxin99.instagram.model.Post;
 
-public class HomeActivity extends AppCompatActivity {
+public class CreateActivity extends AppCompatActivity {
 
     private EditText descriptionInput;
     private Button createButton;
     private Button refreshButton;
     private Button logoutButton;
     private Button cameraButton;
-    //private static final String imagePath = "/storage/emulated/0/DCIM/Camera/IMG_20180709_220038.jpg";
 
     public final String APP_TAG = "CameraFunction";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
@@ -51,8 +50,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-
+        setContentView(R.layout.activity_create);
         descriptionInput = findViewById(R.id.description);
         createButton = findViewById(R.id.createButton);
         refreshButton = findViewById(R.id.refreshButton);
@@ -93,7 +91,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ParseUser.logOut();
-                Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+                Intent intent = new Intent(CreateActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -114,7 +112,7 @@ public class HomeActivity extends AppCompatActivity {
     public void onLaunchCamera(View view) throws IOException {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         photoFile = getPhotoFileUri(photoFileName + ".jpg");
-        Uri fileProvider = FileProvider.getUriForFile(HomeActivity.this, "com.codepath.fileprovider", photoFile);
+        Uri fileProvider = FileProvider.getUriForFile(CreateActivity.this, "com.codepath.fileprovider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
         if (intent.resolveActivity(getPackageManager()) != null) {
             Log.d("HomeActivity", "Launched camera successfully!");
@@ -241,5 +239,4 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
-
 }

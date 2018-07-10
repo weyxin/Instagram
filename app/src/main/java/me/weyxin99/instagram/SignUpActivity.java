@@ -23,7 +23,7 @@ public class SignUpActivity extends AppCompatActivity {
     private String password;
     private String email;
     private Button registerButton;
-    //private EditText handleInput;
+    private EditText handleInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +56,7 @@ public class SignUpActivity extends AppCompatActivity {
         usernameInput = findViewById(R.id.signUpUsername);
         passwordInput = findViewById(R.id.signUpPassword);
         emailInput = findViewById(R.id.signUpEmail);
-        //handleInput = findViewById(R.id.signUpHandle);
+        handleInput = findViewById(R.id.signUpHandle);
         username = usernameInput.getText().toString();
         password = passwordInput.getText().toString();
         email = emailInput.getText().toString();
@@ -64,7 +64,7 @@ public class SignUpActivity extends AppCompatActivity {
         user.setUsername(username);
         user.setPassword(password);
         user.setEmail(email);
-        //user.put("handle", handleInput);
+        user.put("handle", handleInput);
     }
 
     private void login(String username, String password) {
@@ -73,7 +73,7 @@ public class SignUpActivity extends AppCompatActivity {
             public void done(ParseUser user, ParseException e) {
                 if(e == null) {
                     Log.d("SignUpActivity", "Log in successful!");
-                    final Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
+                    final Intent intent = new Intent(SignUpActivity.this, PostListActivity.class);
                     startActivity(intent);
                     finish();
                 }
