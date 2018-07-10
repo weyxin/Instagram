@@ -23,12 +23,13 @@ public class SignUpActivity extends AppCompatActivity {
     private String password;
     private String email;
     private Button registerButton;
-    private EditText handleInput;
+    //private EditText handleInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        ParseUser.getCurrentUser().logOut();
         getSupportActionBar().hide();
         registerButton = findViewById(R.id.registerButton);
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -55,7 +56,7 @@ public class SignUpActivity extends AppCompatActivity {
         usernameInput = findViewById(R.id.signUpUsername);
         passwordInput = findViewById(R.id.signUpPassword);
         emailInput = findViewById(R.id.signUpEmail);
-        handleInput = findViewById(R.id.signUpHandle);
+        //handleInput = findViewById(R.id.signUpHandle);
         username = usernameInput.getText().toString();
         password = passwordInput.getText().toString();
         email = emailInput.getText().toString();
@@ -63,7 +64,7 @@ public class SignUpActivity extends AppCompatActivity {
         user.setUsername(username);
         user.setPassword(password);
         user.setEmail(email);
-        user.put("handle", handleInput);
+        //user.put("handle", handleInput);
     }
 
     private void login(String username, String password) {
