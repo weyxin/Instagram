@@ -12,6 +12,8 @@ import android.widget.Button;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,9 +62,7 @@ public class PostListActivity extends AppCompatActivity {
                                 + "\nusername = " + objects.get(i).getUser().getUsername());
                         Post post = objects.get(i);
                         posts.add(post);
-                        postAdapter.notifyItemInserted(posts.size() - 1);
                     }
-                    postAdapter.addPostsToList(posts);
                 }
                 else {
                     Log.d("PostListActivity", "Failed to load top posts.");
@@ -72,17 +72,17 @@ public class PostListActivity extends AppCompatActivity {
         });
     }
 
-    /*@Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == RESULT_OK) {
-            Log.d("PostListActivity", "Successfully refreshed feed!");
+            Log.d("*", "Successfully refreshed feed!");
             Post post = (Post) Parcels.unwrap(data.getParcelableExtra("post"));
-            posts.add(0, post);
-            postAdapter.notifyItemInserted(0);
+            posts.add(post);
+            postAdapter.notifyItemInserted(posts.size()-1);
             rvPosts.scrollToPosition(0);
         }
         else {
-            Log.d("PostListActivity", "Error on automatic refreshing feed.");
+            Log.d("*", "Error on automatic refreshing feed.");
         }
-    }*/
+    }
 }

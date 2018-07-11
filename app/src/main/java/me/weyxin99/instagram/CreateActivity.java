@@ -18,18 +18,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import org.parceler.Parcels;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
 
 import me.weyxin99.instagram.model.BitmapScaler;
 import me.weyxin99.instagram.model.Post;
@@ -69,11 +69,11 @@ public class CreateActivity extends AppCompatActivity {
                     @Override
                     public void done(ParseException e) {
                         if(e == null) {
-                            Log.d("HomeActivity", "Successfully saved parse file");
+                            Log.d("CreateActivity", "Successfully saved parse file");
                             createPost(description, parseFile, user);
                         }
                         else {
-                            Log.d("HomeActivity", "Failed to save parse file.");
+                            Log.d("CreateActivity", "Failed to save parse file.");
                         }
                     }
                 });
@@ -83,7 +83,9 @@ public class CreateActivity extends AppCompatActivity {
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadTopPosts();
+                Intent intent = new Intent(CreateActivity.this, PostListActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -115,11 +117,11 @@ public class CreateActivity extends AppCompatActivity {
         Uri fileProvider = FileProvider.getUriForFile(CreateActivity.this, "com.codepath.fileprovider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
         if (intent.resolveActivity(getPackageManager()) != null) {
-            Log.d("HomeActivity", "Launched camera successfully!");
+            Log.d("CreateActivity", "Launched camera successfully!");
             startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
         }
         else {
-            Log.d("HomeActivity", "Failed to launch camera.");
+            Log.d("CreateActivity", "Failed to launch camera.");
         }
     }
 
@@ -165,9 +167,9 @@ public class CreateActivity extends AppCompatActivity {
                 //Resize the picture
                 Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
                 Bitmap rawTakenImage = BitmapFactory.decodeFile(photoFile.getPath());
-                Bitmap resizedBitmap = BitmapScaler.scaleToFitWidth(rawTakenImage, 500);
+                Bitmap resizedBitmap = BitmapScaler.scaleToFitWidth(rawTakenImage, 200);
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
+                resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
 
                 // Create a new file for the resized bitmap (`getPhotoFileUri` defined above)
                 File resizedFile = getPhotoFileUri(photoFileName + "_resized.jpg");
@@ -210,34 +212,14 @@ public class CreateActivity extends AppCompatActivity {
             @Override
             public void done(ParseException e) {
                 if(e == null) {
-                    Log.d("HomeActivity", "Created successful post!");
-                    /*Intent data = new Intent(CreateActivity.this, PostListActivity.class);
-                    data.putExtra("tweet", Parcels.wrap(newPost));
+                    Log.d("CreateActivity", "Created successful post!");
+                    Intent data = new Intent(CreateActivity.this, PostListActivity.class);
+                    data.putExtra("post", Parcels.wrap(newPost));
                     setResult(RESULT_OK, data);
-                    finish();*/
+                    finish();
                 }
                 else {
-                    Log.d("HomeActivity", "Failed to create a post.");
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    private void loadTopPosts() {
-        final Post.Query postQuery = new Post.Query();
-        postQuery.getTop().withUser();
-        postQuery.findInBackground(new FindCallback<Post>() {
-            @Override
-            public void done(List<Post> objects, ParseException e) {
-                if(e == null) {
-                    for(int i=0; i < objects.size(); i++) {
-                        Log.e("HomeActivity", "Post[" + i + "] = "
-                                + objects.get(i).getDescription()
-                                + "\nusername = " + objects.get(i).getUser().getUsername());
-                    }
-                }
-                else {
+                    Log.d("CreateActivity", "Failed to create a post.");
                     e.printStackTrace();
                 }
             }
