@@ -49,6 +49,7 @@ public class PostListActivity extends AppCompatActivity {
 
     private void loadTopPosts() {
         final Post.Query postQuery = new Post.Query();
+        postQuery.orderByDescending("createdAt");
         postQuery.getTop().withUser();
         postQuery.findInBackground(new FindCallback<Post>() {
             @Override
@@ -56,7 +57,7 @@ public class PostListActivity extends AppCompatActivity {
                 if(e == null) {
                     postAdapter.clearPostsList();
                     posts.clear();
-                    for(int i = objects.size()-1; i > 0; i--) {
+                    for(int i = 0; i < objects.size(); i++) {
                         Log.e("PostListActivity", "Post[" + i + "] = "
                                 + objects.get(i).getDescription()
                                 + "\nusername = " + objects.get(i).getUser().getUsername());
