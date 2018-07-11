@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -38,9 +40,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         Post post = mPosts.get(position);
         holder.tvHandle.setText(post.getUser().getUsername());
         holder.tvDescription.setText(post.getDescription());
-        /*Glide.with(context)
-                .load(tweet.user.profileImageURL)
-                .into(holder.ivProfileImage);*/
+        Glide.with(context)
+                .load(post.getImage().getUrl())
+                .into(holder.ivPostImage);
     }
 
     @Override
@@ -52,6 +54,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         @BindView(R.id.ivProfileImage) ImageView ivProfileImage;
         @BindView(R.id.tvHandle) TextView tvHandle;
         @BindView(R.id.tvDescription) TextView tvDescription;
+        @BindView(R.id.ivPostImage) ImageView ivPostImage;
 
 
         public ViewHolder(View itemView) {

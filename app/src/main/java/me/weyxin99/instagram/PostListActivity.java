@@ -54,7 +54,7 @@ public class PostListActivity extends AppCompatActivity {
                 if(e == null) {
                     postAdapter.clearPostsList();
                     posts.clear();
-                    for(int i=0; i < objects.size(); i++) {
+                    for(int i = objects.size()-1; i > 0; i--) {
                         Log.e("PostListActivity", "Post[" + i + "] = "
                                 + objects.get(i).getDescription()
                                 + "\nusername = " + objects.get(i).getUser().getUsername());
@@ -71,4 +71,18 @@ public class PostListActivity extends AppCompatActivity {
             }
         });
     }
+
+    /*@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK) {
+            Log.d("PostListActivity", "Successfully refreshed feed!");
+            Post post = (Post) Parcels.unwrap(data.getParcelableExtra("post"));
+            posts.add(0, post);
+            postAdapter.notifyItemInserted(0);
+            rvPosts.scrollToPosition(0);
+        }
+        else {
+            Log.d("PostListActivity", "Error on automatic refreshing feed.");
+        }
+    }*/
 }

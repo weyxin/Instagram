@@ -211,6 +211,10 @@ public class CreateActivity extends AppCompatActivity {
             public void done(ParseException e) {
                 if(e == null) {
                     Log.d("HomeActivity", "Created successful post!");
+                    /*Intent data = new Intent(CreateActivity.this, PostListActivity.class);
+                    data.putExtra("tweet", Parcels.wrap(newPost));
+                    setResult(RESULT_OK, data);
+                    finish();*/
                 }
                 else {
                     Log.d("HomeActivity", "Failed to create a post.");
