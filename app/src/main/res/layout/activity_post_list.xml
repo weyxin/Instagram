@@ -6,20 +6,12 @@
     android:layout_height="wrap_content"
     tools:context=".PostListActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvPosts"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
-
-    <Button
-        android:id="@+id/createPostButton"
-        android:layout_width="130dp"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="Create Post" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvPosts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation"

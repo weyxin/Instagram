@@ -3,6 +3,7 @@ package me.weyxin99.instagram.model;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,11 +23,10 @@ import me.weyxin99.instagram.PostAdapter;
 import me.weyxin99.instagram.R;
 
 public class postListFragment extends Fragment {
-    // The onCreateView method is called when Fragment should create its View object hierarchy,
-    // either dynamically or via XML layout inflation.
     PostAdapter postAdapter;
     ArrayList<Post> posts;
     RecyclerView rvPosts;
+    SwipeRefreshLayout swipeContainer;
     int RESULT_OK = -1;
 
     @Override
@@ -34,8 +34,6 @@ public class postListFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_postlist, parent, false);
     }
 
-    // This event is triggered soon after onCreateView().
-    // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         rvPosts = (RecyclerView) view.findViewById(R.id.rvPosts);
@@ -44,6 +42,18 @@ public class postListFragment extends Fragment {
         rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         rvPosts.setAdapter(postAdapter);
         loadTopPosts();
+
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadTopPosts();
+            }
+        });
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
     }
 
     private void loadTopPosts() {
@@ -57,15 +67,16 @@ public class postListFragment extends Fragment {
                     postAdapter.clearPostsList();
                     posts.clear();
                     for(int i = 0; i < objects.size(); i++) {
-                        Log.e("PostListActivity", "Post[" + i + "] = "
+                        Log.e("PostListFragment", "Post[" + i + "] = "
                                 + objects.get(i).getDescription()
                                 + "\nusername = " + objects.get(i).getUser().getUsername());
                         Post post = objects.get(i);
                         posts.add(post);
                     }
+                    swipeContainer.setRefreshing(false);
                 }
                 else {
-                    Log.d("PostListActivity", "Failed to load top posts.");
+                    Log.d("PostListFragment", "Failed to load top posts.");
                     e.printStackTrace();
                 }
             }
@@ -75,7 +86,7 @@ public class postListFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == RESULT_OK) {
-            Log.d("PostListActivity", "Successfully refreshed feed!");
+            Log.d("PostListFragment", "Successfully refreshed feed!");
             Post post = (Post) Parcels.unwrap(data.getParcelableExtra("post"));
             //posts.add(post);
             posts.add(0, post);
@@ -84,7 +95,7 @@ public class postListFragment extends Fragment {
             rvPosts.scrollToPosition(0);
         }
         else {
-            Log.d("PostListActivity", "Error on automatic refreshing feed.");
+            Log.d("PostListFragment", "Error on automatic refreshing feed.");
         }
     }
 }

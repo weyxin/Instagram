@@ -2,13 +2,10 @@ package me.weyxin99.instagram;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -22,11 +19,9 @@ import me.weyxin99.instagram.model.Post;
 
 public class PostListActivity extends AppCompatActivity {
 
-    Button createPostButton;
     PostAdapter postAdapter;
     ArrayList<Post> posts;
     RecyclerView rvPosts;
-    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,43 +33,6 @@ public class PostListActivity extends AppCompatActivity {
         rvPosts.setLayoutManager(new LinearLayoutManager(this));
         rvPosts.setAdapter(postAdapter);
         loadTopPosts();
-        createPostButton = findViewById(R.id.createPostButton);
-        createPostButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("HomeActivity", "Creating a post!");
-                Intent intent = new Intent(PostListActivity.this, CreateActivity.class);
-                startActivity(intent);
-            }
-        });
-/*        final FragmentManager fragmentManager = getSupportFragmentManager();
-        final Fragment fragment1 = new FirstFragment();
-        final Fragment fragment2 = new SecondFragment();
-        final Fragment fragment3 = new ThirdFragment();
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.homeNav:
-                        // switch to home feed
-                        FragmentTransaction fragmentTransaction1 = fragmentManager.beginTransaction();
-                        fragmentTransaction1.replace(R.id.flContainer, fragment1).commit();
-                        return true;
-                    case R.id.newPostNav:
-                        // switch to create activity
-                        FragmentTransaction fragmentTransaction2 = fragmentManager.beginTransaction();
-                        fragmentTransaction2.replace(R.id.flContainer, fragment2).commit();
-                        return true;
-                    case R.id.profileNav:
-                        // switch to profile activity
-                        FragmentTransaction fragmentTransaction3 = fragmentManager.beginTransaction();
-                        fragmentTransaction3.replace(R.id.flContainer, fragment3).commit();
-                        return true;
-                }
-                return false;
-            }
-        });*/
     }
 
     private void loadTopPosts() {
