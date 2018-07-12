@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateActivity">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <EditText
         android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -19,32 +16,34 @@
         android:hint="Enter a description"
         android:inputType="textPersonName" />
 
+    <ImageView
+        android:id="@+id/ivPreview"
+        android:layout_width="190dp"
+        android:layout_height="228dp"
+        android:layout_below="@+id/tvDescription"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:layout_marginTop="60dp"
+        app:srcCompat="@android:color/black" />
+
     <Button
         android:id="@+id/createButton"
         android:layout_width="360dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="183dp"
+        android:layout_marginBottom="108dp"
         android:text="Create" />
 
     <Button
         android:id="@+id/refreshButton"
         android:layout_width="360dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="110dp"
+        android:layout_above="@+id/logoutButton"
+        android:layout_marginTop="10dp"
         android:text="Refresh" />
-
-    <Button
-        android:id="@+id/cameraButton"
-        android:layout_width="360dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="248dp"
-        android:text="Camera" />
 
     <Button
         android:id="@+id/logoutButton"
@@ -52,16 +51,17 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="10dp"
         android:text="Log Out" />
 
-    <ImageView
-        android:id="@+id/ivPreview"
-        android:layout_width="127dp"
-        android:layout_height="137dp"
-        android:layout_below="@+id/tvDescription"
+    <ImageButton
+        android:id="@+id/addImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
-        app:srcCompat="@android:color/black" />
+        android:layout_marginBottom="163dp"
+        android:background="@color/white"
+        app:srcCompat="@drawable/add_photo" />
 
 </RelativeLayout>

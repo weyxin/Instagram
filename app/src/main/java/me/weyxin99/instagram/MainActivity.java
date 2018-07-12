@@ -24,7 +24,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ParseUser currentUser = ParseUser.getCurrentUser();
         if(currentUser != null) {
-            Intent intent = new Intent(MainActivity.this, PostListActivity.class);
+            //Intent intent = new Intent(MainActivity.this, PostListActivity.class);
+            Intent intent = new Intent(MainActivity.this, TimelineActivity.class);
             startActivity(intent);
             finish();
         }

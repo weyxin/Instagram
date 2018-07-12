@@ -41,7 +41,8 @@
         </provider>
 
         <activity android:name=".PostListActivity" />
-        <activity android:name=".CreateActivity"></activity>
+        <activity android:name=".CreateActivity" />
+        <activity android:name=".TimelineActivity"></activity>
     </application>
 
 </manifest>

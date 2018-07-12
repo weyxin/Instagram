@@ -1,4 +1,4 @@
-package me.weyxin99.instagram;
+package me.weyxin99.instagram.model;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,12 +9,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -23,39 +27,44 @@ import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import org.parceler.Parcels;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import me.weyxin99.instagram.model.BitmapScaler;
-import me.weyxin99.instagram.model.Post;
+import me.weyxin99.instagram.MainActivity;
+import me.weyxin99.instagram.R;
 
-public class CreateActivity extends AppCompatActivity {
+import static com.parse.Parse.getApplicationContext;
 
+public class createFragment extends Fragment {
+
+    private static final int RESULT_OK = -1;
     private EditText descriptionInput;
-    private Button createButton;
     private Button refreshButton;
     private Button logoutButton;
-    private Button cameraButton;
-
+    private Button createButton;
+    private ImageView ivPreview;
+    private ImageButton addPhotoButton;
     public final String APP_TAG = "CameraFunction";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "photo";
     File photoFile;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create);
-        descriptionInput = findViewById(R.id.description);
-        createButton = findViewById(R.id.createButton);
-        refreshButton = findViewById(R.id.refreshButton);
-        logoutButton = findViewById(R.id.logoutButton);
-        cameraButton = findViewById(R.id.cameraButton);
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_create, parent, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        descriptionInput = view.findViewById(R.id.description);
+        refreshButton = view.findViewById(R.id.refreshButton);
+        logoutButton = view.findViewById(R.id.logoutButton);
+        createButton = view.findViewById(R.id.createButton);
+        ivPreview = view.findViewById(R.id.ivPreview);
+        addPhotoButton = view.findViewById(R.id.addImage);
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +73,6 @@ public class CreateActivity extends AppCompatActivity {
                 final ParseUser user = ParseUser.getCurrentUser();
                 final File file = getPhotoFileUri(photoFileName + "_resized.jpg");
                 final ParseFile parseFile = new ParseFile(file);
-
                 parseFile.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
@@ -80,12 +88,21 @@ public class CreateActivity extends AppCompatActivity {
             }
         });
 
+        addPhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onLaunchCamera();
+            }
+        });
+
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CreateActivity.this, PostListActivity.class);
-                startActivity(intent);
-                finish();
+                Fragment postListFragment = new postListFragment();
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.flContainer, postListFragment)
+                        .commit();
             }
         });
 
@@ -93,41 +110,30 @@ public class CreateActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ParseUser.logOut();
-                Intent intent = new Intent(CreateActivity.this, MainActivity.class);
+                Intent intent = new Intent(getContext(), MainActivity.class);
                 startActivity(intent);
-                finish();
-            }
-        });
-
-        cameraButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    onLaunchCamera(view);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                //finish();
             }
         });
     }
 
-    public void onLaunchCamera(View view) throws IOException {
+    public void onLaunchCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         photoFile = getPhotoFileUri(photoFileName + ".jpg");
-        Uri fileProvider = FileProvider.getUriForFile(CreateActivity.this, "com.codepath.fileprovider", photoFile);
+        Uri fileProvider = FileProvider.getUriForFile(getApplicationContext(), "com.codepath.fileprovider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            Log.d("CreateActivity", "Launched camera successfully!");
+        if (intent.resolveActivity(getApplicationContext().getPackageManager()) != null) {
+            Log.d("TimelineActivity", "Launched camera successfully!");
             startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
         }
         else {
-            Log.d("CreateActivity", "Failed to launch camera.");
+            Log.d("TimelineActivity", "Failed to launch camera.");
         }
     }
 
     // Returns the File for a photo stored on disk given the fileName
     public File getPhotoFileUri(String fileName) {
-        File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), APP_TAG);
+        File mediaStorageDir = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), APP_TAG);
         if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
             Log.d(APP_TAG, "Failed to create directory.");
         }
@@ -167,7 +173,7 @@ public class CreateActivity extends AppCompatActivity {
                 //Resize and rotate the picture
                 Bitmap takenImage = rotateBitmapOrientation(photoFile.getAbsolutePath());
                 Bitmap rawTakenImage = rotateBitmapOrientation(photoFile.getPath());
-                Bitmap resizedBitmap = BitmapScaler.scaleToFitWidth(rawTakenImage, 200);
+                Bitmap resizedBitmap = BitmapScaler.scaleToFitWidth(rawTakenImage, 1000);
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
 
@@ -194,11 +200,10 @@ public class CreateActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                ImageView ivPreview = (ImageView) findViewById(R.id.ivPreview);
                 ivPreview.setImageBitmap(takenImage);
             }
             else {
-                Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -212,14 +217,11 @@ public class CreateActivity extends AppCompatActivity {
             @Override
             public void done(ParseException e) {
                 if(e == null) {
-                    Log.d("CreateActivity", "Created successful post!");
-                    Intent data = new Intent(CreateActivity.this, PostListActivity.class);
-                    data.putExtra("post", Parcels.wrap(newPost));
-                    setResult(RESULT_OK, data);
-                    finish();
+                    Log.d("createFragment", "Created successful post!");
+                    descriptionInput.setText("");
                 }
                 else {
-                    Log.d("CreateActivity", "Failed to create a post.");
+                    Log.d("createFragment", "Failed to create a post.");
                     e.printStackTrace();
                 }
             }

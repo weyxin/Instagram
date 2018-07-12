@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.parse.ParseImageView;
 
 import java.util.List;
 
@@ -40,6 +41,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         Post post = mPosts.get(position);
         holder.tvHandle.setText(post.getUser().getUsername());
         holder.tvDescription.setText(post.getDescription());
+        holder.tvUsername.setText(post.getUser().getUsername());
+        holder.ivPostImage.layout(0,0,0,0);
         Glide.with(context)
                 .load(post.getImage().getUrl())
                 .into(holder.ivPostImage);
@@ -54,7 +57,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         @BindView(R.id.ivProfileImage) ImageView ivProfileImage;
         @BindView(R.id.tvHandle) TextView tvHandle;
         @BindView(R.id.tvDescription) TextView tvDescription;
-        @BindView(R.id.ivPostImage) ImageView ivPostImage;
+        @BindView(R.id.ivPostImage) ParseImageView ivPostImage;
+        @BindView(R.id.tvUsername) TextView tvUsername;
 
 
         public ViewHolder(View itemView) {
@@ -66,11 +70,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         public void onClick(View view) {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                Post post = mPosts.get(position);
-                //Intent intent = new Intent(context, PostDetailsActivity.class);
-                //intent.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
-                //context.startActivity(intent);
-            }
+                Post post = mPosts.get(position);// Intent intent = new Intent(context, PostDetailsActivity.class);
+        // intent.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
+        // context.startActivity(intent);
+        //                //Intent intent = new Intent(context, PostDetailsActivity.class);
+        //                //intent.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
+        //                //context.startActivity(intent);
+      }
         }
     }
 
