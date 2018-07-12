@@ -77,6 +77,16 @@
         android:layout_alignBottom="@+id/heartButton"
         android:layout_alignStart="@+id/tvHandle"
         android:background="@null"
-        app:srcCompat="@drawable/share_button" />
+        app:srcCompat="@drawable/ufi_new_direct" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/heartButton"
+        android:layout_marginEnd="20dp"
+        android:background="@null"
+        app:srcCompat="@drawable/bookmark" />
 
 </RelativeLayout>
