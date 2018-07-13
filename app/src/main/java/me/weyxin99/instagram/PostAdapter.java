@@ -1,7 +1,9 @@
 package me.weyxin99.instagram;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import me.weyxin99.instagram.model.Post;
+import me.weyxin99.instagram.model.myProfileFragment;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
@@ -80,6 +83,24 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                     }
                     else {
                         heartButton.setImageResource(R.drawable.ufi_heart);
+                    }
+                }
+            });
+
+            tvHandle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION) {
+                        Post post = mPosts.get(position);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("user_post", post);
+
+                        myProfileFragment userFragment = new myProfileFragment();
+                        userFragment.setArguments(bundle);
+                        AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                        activity.getSupportFragmentManager().beginTransaction().
+                                replace(R.id.flContainer, userFragment).addToBackStack(null).commit();
                     }
                 }
             });

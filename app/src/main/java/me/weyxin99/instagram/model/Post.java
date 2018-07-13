@@ -9,12 +9,13 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 @ParseClassName("Post")
-public class Post extends ParseObject{
+public class Post extends ParseObject implements Serializable{
 
     private static final String KEY_DESCRIPTION = "description";
     private static final String KEY_USER = "user";

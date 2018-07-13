@@ -19,6 +19,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginLeft="40dp"
         android:layout_below="@+id/myProfileImage"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:text="TextView" />
 
@@ -32,5 +33,78 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/editProfile"
+        android:layout_width="207dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/myProfileImage"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/edit_profile_button"
+        android:text="Edit Profile Image"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/tvPosts"
+        android:layout_width="40dp"
+        android:layout_height="20dp"
+        android:layout_alignLeft="@id/editProfile"
+        android:layout_marginTop="56dp"
+        android:text="posts" />
+
+    <TextView
+        android:id="@+id/tvFollowers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvPosts"
+        android:layout_toRightOf="@+id/tvPosts"
+        android:layout_marginLeft="25dp"
+        android:text="followers" />
+
+    <TextView
+        android:id="@+id/tvFollowing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/rvMyPosts"
+        android:layout_alignTop="@+id/tvPosts"
+        android:text="following" />
+
+    <TextView
+        android:id="@+id/postNum"
+        android:layout_width="30dp"
+        android:layout_height="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/tvPosts"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="30dp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/followerNum"
+        android:layout_width="30dp"
+        android:layout_height="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/tvFollowers"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/followingNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/tvFollowing"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="30dp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:text="TextView" />
 
 </RelativeLayout>

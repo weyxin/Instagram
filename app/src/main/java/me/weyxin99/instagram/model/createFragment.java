@@ -115,7 +115,6 @@ public class createFragment extends Fragment {
                 ParseUser.logOut();
                 Intent intent = new Intent(getContext(), MainActivity.class);
                 startActivity(intent);
-                //finish();
             }
         });
     }

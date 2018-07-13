@@ -30,29 +30,54 @@ public class myProfileFragment extends Fragment {
     ProfileAdapter profileAdapter;
     ArrayList<Post> myPosts;
     RecyclerView rvMyPosts;
+    TextView followerNum;
+    TextView followingNum;
+    TextView postNum;
+    Post userInfo;
+    int posts;
     int numOfColumns = 3;
+    Boolean ownProfile = true;
+    ParseUser user;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        Bundle bundledUser = getArguments();
+        if(bundledUser != null) {
+            userInfo = (Post) bundledUser.getSerializable("user_post");
+            ownProfile = false;
+        }
         return inflater.inflate(R.layout.fragment_my_profile, parent, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        tvUsername = view.findViewById(R.id.myUsername);
-        tvUsername.setText(ParseUser.getCurrentUser().getUsername());
+        myPosts = new ArrayList<>();
+        profileAdapter = new ProfileAdapter(myPosts);
+        rvMyPosts = (RecyclerView) view.findViewById(R.id.rvMyPosts);
+        rvMyPosts.setLayoutManager(new GridLayoutManager(getContext(), numOfColumns));
+        rvMyPosts.setAdapter(profileAdapter);
 
+        postNum = view.findViewById(R.id.postNum);
         ivProfileImage = view.findViewById(R.id.myProfileImage);
-        ParseFile profileImage = (ParseFile) ParseUser.getCurrentUser().get("profileImage");
+        tvUsername = view.findViewById(R.id.myUsername);
+        followerNum = view.findViewById(R.id.followerNum);
+        followingNum = view.findViewById(R.id.followingNum);
+
+        if(ownProfile){
+            user = ParseUser.getCurrentUser();
+        }
+
+        else {
+            user = userInfo.getUser();
+        }
+
+        ParseFile profileImage = (ParseFile) user.get("profileImage");
         Glide.with(getContext())
                 .load(profileImage.getUrl())
                 .into(ivProfileImage);
-
-        rvMyPosts = (RecyclerView) view.findViewById(R.id.rvMyPosts);
-        myPosts = new ArrayList<>();
-        profileAdapter = new ProfileAdapter(myPosts);
-        rvMyPosts.setLayoutManager(new GridLayoutManager(getContext(), numOfColumns));
-        rvMyPosts.setAdapter(profileAdapter);
+        tvUsername.setText(user.getUsername());
+        followerNum.setText(user.getString("followers"));
+        followingNum.setText(user.getString("following"));
         loadMyPosts();
     }
 
@@ -60,7 +85,7 @@ public class myProfileFragment extends Fragment {
         final Post.Query postQuery = new Post.Query();
         postQuery.orderByDescending("createdAt");
         postQuery.withUser();
-        postQuery.whereEqualTo("user", ParseUser.getCurrentUser());
+        postQuery.whereEqualTo("user", user);
         postQuery.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> objects, ParseException e) {
@@ -75,6 +100,8 @@ public class myProfileFragment extends Fragment {
                         Post post = objects.get(i);
                         myPosts.add(post);
                     }
+                    posts = objects.size();
+                    postNum.setText(Integer.toString(posts));
                 }
                 else {
                     Log.d("MyProfileFragment", "Failed to load my posts.");
