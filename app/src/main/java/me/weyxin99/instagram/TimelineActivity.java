@@ -1,5 +1,6 @@
 package me.weyxin99.instagram;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -9,12 +10,18 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+
+import com.parse.ParseUser;
 
 import me.weyxin99.instagram.model.createFragment;
 import me.weyxin99.instagram.model.myProfileFragment;
 import me.weyxin99.instagram.model.postListFragment;
 
 public class TimelineActivity extends AppCompatActivity {
+
+    ImageView logoutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,5 +61,17 @@ public class TimelineActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        logoutButton = findViewById(R.id.logout);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ParseUser.logOut();
+                Intent intent = new Intent(TimelineActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
 }

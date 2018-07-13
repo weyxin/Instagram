@@ -28,7 +28,8 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_alignTop="@+id/my_toolbar"
-            android:layout_marginStart="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="65dp"
             app:srcCompat="@drawable/nav_logo_whiteout" />
 
     </android.support.v7.widget.Toolbar>
@@ -47,14 +48,15 @@
         android:layout_above="@+id/bottom_navigation"/>
 
     <ImageView
-        android:id="@+id/ivArrow"
+        android:id="@+id/logout"
         android:layout_width="29dp"
         android:layout_height="36dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_marginEnd="12dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginTop="12dp"
-        app:srcCompat="@drawable/direct_2" />
+        android:clickable="true"
+        app:srcCompat="@drawable/logout" />
 
     <ImageView
         android:id="@+id/ivCamera"

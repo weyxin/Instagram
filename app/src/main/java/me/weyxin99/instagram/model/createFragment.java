@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -34,7 +32,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import me.weyxin99.instagram.MainActivity;
 import me.weyxin99.instagram.R;
 
 import static com.parse.Parse.getApplicationContext;
@@ -43,11 +40,12 @@ public class createFragment extends Fragment {
 
     private static final int RESULT_OK = -1;
     private EditText descriptionInput;
-    private Button refreshButton;
-    private Button logoutButton;
+    //private Button refreshButton;
+    //private Button logoutButton;
     private Button createButton;
     private ImageView ivPreview;
-    private ImageButton addPhotoButton;
+    private Button addPhotoButton;
+    private ImageView ivHolder;
     private ProgressBar pb;
     public final String APP_TAG = "CameraFunction";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
@@ -62,9 +60,10 @@ public class createFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         descriptionInput = view.findViewById(R.id.description);
-        refreshButton = view.findViewById(R.id.refreshButton);
-        logoutButton = view.findViewById(R.id.logoutButton);
+        //refreshButton = view.findViewById(R.id.refreshButton);
+        //logoutButton = view.findViewById(R.id.logoutButton);
         createButton = view.findViewById(R.id.createButton);
+        ivHolder = view.findViewById(R.id.ivHolder);
         ivPreview = view.findViewById(R.id.ivPreview);
         addPhotoButton = view.findViewById(R.id.addImage);
         pb = view.findViewById(R.id.pbLoading);
@@ -95,26 +94,6 @@ public class createFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 onLaunchCamera();
-            }
-        });
-
-        refreshButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Fragment postListFragment = new postListFragment();
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.flContainer, postListFragment)
-                        .commit();
-            }
-        });
-
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ParseUser.logOut();
-                Intent intent = new Intent(getContext(), MainActivity.class);
-                startActivity(intent);
             }
         });
     }
@@ -202,6 +181,7 @@ public class createFragment extends Fragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                ivHolder.setVisibility(View.INVISIBLE);
                 ivPreview.setImageBitmap(takenImage);
             }
             else {
