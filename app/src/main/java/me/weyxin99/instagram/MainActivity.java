@@ -24,14 +24,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ParseUser currentUser = ParseUser.getCurrentUser();
         if(currentUser != null) {
-            //Intent intent = new Intent(MainActivity.this, PostListActivity.class);
             Intent intent = new Intent(MainActivity.this, TimelineActivity.class);
             startActivity(intent);
             finish();
         }
         else {
             setContentView(R.layout.activity_main);
-            getSupportActionBar().hide();
+            //getSupportActionBar().hide();
 
             usernameInput = findViewById(R.id.username);
             passwordInput = findViewById(R.id.password);
@@ -64,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             public void done(ParseUser user, ParseException e) {
                 if(e == null) {
                     Log.d("LoginActivity", "Log in successful!");
-                    final Intent intent = new Intent(MainActivity.this, PostListActivity.class);
+                    final Intent intent = new Intent(MainActivity.this, TimelineActivity.class);
                     startActivity(intent);
                     finish();
                 }

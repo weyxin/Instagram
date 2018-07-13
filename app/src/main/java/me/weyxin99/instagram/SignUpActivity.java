@@ -22,6 +22,7 @@ public class SignUpActivity extends AppCompatActivity {
     private String username;
     private String password;
     private String email;
+    private String handle;
     private Button registerButton;
     private EditText handleInput;
 
@@ -30,7 +31,7 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         ParseUser.getCurrentUser().logOut();
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
         registerButton = findViewById(R.id.registerButton);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,11 +61,12 @@ public class SignUpActivity extends AppCompatActivity {
         username = usernameInput.getText().toString();
         password = passwordInput.getText().toString();
         email = emailInput.getText().toString();
+        handle = handleInput.getText().toString();
         user = new ParseUser();
         user.setUsername(username);
         user.setPassword(password);
         user.setEmail(email);
-        user.put("handle", handleInput);
+        user.put("handle", handle);
     }
 
     private void login(String username, String password) {
@@ -73,7 +75,7 @@ public class SignUpActivity extends AppCompatActivity {
             public void done(ParseUser user, ParseException e) {
                 if(e == null) {
                     Log.d("SignUpActivity", "Log in successful!");
-                    final Intent intent = new Intent(SignUpActivity.this, PostListActivity.class);
+                    final Intent intent = new Intent(SignUpActivity.this, TimelineActivity.class);
                     startActivity(intent);
                     finish();
                 }

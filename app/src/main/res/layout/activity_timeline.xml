@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_alignTop="@+id/my_toolbar"
-            android:layout_marginStart="55dp"
+            android:layout_marginStart="50dp"
             app:srcCompat="@drawable/nav_logo_whiteout" />
 
     </android.support.v7.widget.Toolbar>
@@ -54,7 +54,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginEnd="12dp"
         android:layout_marginTop="12dp"
-        app:srcCompat="@drawable/direct" />
+        app:srcCompat="@drawable/direct_2" />
 
     <ImageView
         android:id="@+id/ivCamera"

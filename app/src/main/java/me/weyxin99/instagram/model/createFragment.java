@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.parse.ParseException;
@@ -47,6 +48,7 @@ public class createFragment extends Fragment {
     private Button createButton;
     private ImageView ivPreview;
     private ImageButton addPhotoButton;
+    private ProgressBar pb;
     public final String APP_TAG = "CameraFunction";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "photo";
@@ -65,6 +67,7 @@ public class createFragment extends Fragment {
         createButton = view.findViewById(R.id.createButton);
         ivPreview = view.findViewById(R.id.ivPreview);
         addPhotoButton = view.findViewById(R.id.addImage);
+        pb = view.findViewById(R.id.pbLoading);
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -209,6 +212,7 @@ public class createFragment extends Fragment {
     }
 
     private void createPost(String description, ParseFile image, ParseUser user) {
+        pb.setVisibility(ProgressBar.VISIBLE);
         final Post newPost = new Post();
         newPost.setDescription(description);
         newPost.setImage(image);
@@ -219,6 +223,7 @@ public class createFragment extends Fragment {
                 if(e == null) {
                     Log.d("createFragment", "Created successful post!");
                     descriptionInput.setText("");
+                    pb.setVisibility(ProgressBar.INVISIBLE);
                 }
                 else {
                     Log.d("createFragment", "Failed to create a post.");
