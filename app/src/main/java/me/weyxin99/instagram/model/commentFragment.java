@@ -48,7 +48,7 @@ public class commentFragment extends Fragment {
             public void onClick(View view) {
                 String text = postComment.getText().toString();
                 comments = currentPost.getComments();
-                comments.add(0, text);
+                comments.add(text);
                 commentAdapter.clearCommentsList();
                 commentAdapter.addCommentsToList(comments);
             }
