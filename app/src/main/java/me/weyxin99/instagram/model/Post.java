@@ -12,6 +12,7 @@ import com.parse.ParseUser;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 @ParseClassName("Post")
@@ -20,11 +21,20 @@ public class Post extends ParseObject implements Serializable{
     private static final String KEY_DESCRIPTION = "description";
     private static final String KEY_USER = "user";
     private static final String KEY_IMAGE = "image";
+    private static final String KEY_HEARTS = "hearts";
+    public static final String KEY_ID = "objectId";
+    public static final String KEY_COMMENT = "comments";
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss ZZZZZ yyyy");
+
+    public String getID() { return getString(KEY_ID); }
 
     public String getDescription() {
         return getString(KEY_DESCRIPTION);
     }
+
+    public String getHearts() { return getString(KEY_HEARTS); }
+
+    public void setHearts() { put(KEY_HEARTS, Integer.toString(0));}
 
     public void setDescription(String description) {
         put(KEY_DESCRIPTION, description);
@@ -45,6 +55,8 @@ public class Post extends ParseObject implements Serializable{
     public void setUser(ParseUser user) {
         put(KEY_USER, user);
     }
+
+    public List<String> getComments() { return getList(KEY_COMMENT); }
 
     public String getTime() {
         Date date = getCreatedAt();
@@ -80,6 +92,7 @@ public class Post extends ParseObject implements Serializable{
         }
         public Query withUser() {
             include("user");
+            include("comments");
             return this;
         }
     }

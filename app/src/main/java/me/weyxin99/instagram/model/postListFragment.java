@@ -41,7 +41,6 @@ public class postListFragment extends Fragment {
         postAdapter = new PostAdapter(posts);
         rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         rvPosts.setAdapter(postAdapter);
-        loadTopPosts();
 
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -54,6 +53,8 @@ public class postListFragment extends Fragment {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+
+        loadTopPosts();
     }
 
     private void loadTopPosts() {

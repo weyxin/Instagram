@@ -40,8 +40,6 @@ public class createFragment extends Fragment {
 
     private static final int RESULT_OK = -1;
     private EditText descriptionInput;
-    //private Button refreshButton;
-    //private Button logoutButton;
     private Button createButton;
     private ImageView ivPreview;
     private Button addPhotoButton;
@@ -60,8 +58,6 @@ public class createFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         descriptionInput = view.findViewById(R.id.description);
-        //refreshButton = view.findViewById(R.id.refreshButton);
-        //logoutButton = view.findViewById(R.id.logoutButton);
         createButton = view.findViewById(R.id.createButton);
         ivHolder = view.findViewById(R.id.ivHolder);
         ivPreview = view.findViewById(R.id.ivPreview);
@@ -196,6 +192,7 @@ public class createFragment extends Fragment {
         newPost.setDescription(description);
         newPost.setImage(image);
         newPost.setUser(user);
+        newPost.setHearts();
         newPost.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
